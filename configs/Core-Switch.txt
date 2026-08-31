@@ -1,0 +1,99 @@
+hostname Core-Switch
+
+no ip cef
+ip routing
+no ipv6 cef
+
+username netadmin privilege 15 secret <REDACTED>
+ip ssh version 2
+no ip domain-lookup
+ip domain-name HYD-B1.local
+
+spanning-tree mode pvst
+
+interface Port-channel1
+ description LACP_TO_AS-1
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
+
+interface GigabitEthernet1/0/1
+ description LACP_TO_AS-1
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
+ channel-group 1 mode active
+
+interface GigabitEthernet1/0/2
+ description Trunk to Access-Switch-2
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
+
+interface GigabitEthernet1/0/3
+ description Link to Server
+ switchport access vlan 30
+ switchport mode access
+ switchport port-security mac-address sticky
+ spanning-tree portfast
+
+interface GigabitEthernet1/0/4
+ description LACP_TO_AS-1
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
+ channel-group 1 mode active
+
+interface GigabitEthernet1/1/1
+ description Link From Edge-Router
+ no switchport
+ ip address 10.255.255.2 255.255.255.252
+
+interface Vlan1
+ no ip address
+ shutdown
+
+interface Vlan10
+ description USERS_GATEWAY
+ mac-address 0001.4337.e701
+ ip address 10.10.10.1 255.255.255.0
+ ip helper-address 10.10.30.2
+
+interface Vlan20
+ description IT_ADMIN_GATEWAY
+ mac-address 0001.4337.e702
+ ip address 10.10.20.1 255.255.255.0
+ ip helper-address 10.10.30.2
+
+interface Vlan30
+ description SERVER_GATEWAY
+ mac-address 0001.4337.e703
+ ip address 10.10.30.1 255.255.255.0
+ ip helper-address 10.10.30.2
+
+interface Vlan99
+ description MANAGEMENT_GATEWAY
+ mac-address 0001.4337.e704
+ ip address 10.10.99.1 255.255.255.0
+
+router ospf 10
+ router-id 2.2.2.2
+ log-adjacency-changes
+ network 10.255.255.0 0.0.0.3 area 100
+ network 10.10.10.0 0.0.0.255 area 100
+ network 10.10.20.0 0.0.0.255 area 100
+ network 10.10.30.0 0.0.0.255 area 100
+ network 10.10.99.0 0.0.0.255 area 100
+ default-information originate
+
+ip classless
+
+ip access-list extended USERS-IN
+ remark ALLOW DHCP SERVER
+ permit udp 10.10.10.0 0.0.0.255 host 10.10.30.2 eq bootps
+ remark BLOCK USERS TO IT ADMIN
+ deny ip 10.10.10.0 0.0.0.255 10.10.20.0 0.0.0.255
+ remark BLOCK USERS TO MANAGEMENT
+ deny ip 10.10.10.0 0.0.0.255 10.10.99.0 0.0.0.255
+ remark ALLOW ALL OTHER USER TRAFFIC
+ permit ip 10.10.10.0 0.0.0.255 any
+
+line vty 0 4
+ login local
+ transport input ssh

@@ -1,0 +1,35 @@
+hostname Edge-Router
+
+no ip cef
+no ipv6 cef
+
+interface GigabitEthernet0/2/0
+ description Link to Core-Switch
+ ip address 10.255.255.1 255.255.255.252
+ ip nat inside
+
+interface GigabitEthernet0/3/0
+ description Link From ISP-Router
+ ip address 203.0.113.2 255.255.255.252
+ ip nat outside
+ ip access-group WAN-IN in
+
+router ospf 10
+ router-id 1.1.1.1
+ log-adjacency-changes
+ network 10.255.255.0 0.0.0.3 area 100
+ default-information originate
+
+ip nat inside source list 1 interface GigabitEthernet0/3/0 overload
+ip classless
+ip route 0.0.0.0 0.0.0.0 203.0.113.1
+
+access-list 1 permit 10.0.0.0 0.255.255.255
+
+ip access-list extended WAN-IN
+ permit icmp any any echo-reply
+ permit tcp any host 203.0.113.2 established
+ deny ip any any
+
+line vty 0 4
+ login
