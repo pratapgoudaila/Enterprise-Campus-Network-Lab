@@ -75,10 +75,8 @@ Place the saved Packet Tracer file in the repository root as:
 
 ## Screenshots
 
-Place the 10 verification screenshots in `verification/`. Use descriptive names such as:
-
-- `01-LACP-AS-1-Connected.png`
-- `02-LACP-AS-1-Disconnected.png`
+- `01-LACP-Both-Links-Up.png`
+- `02-LACP-Physical-Link-Failure.png`
 - `03-STP-Redundancy.png`
 - `04-STP-Path-State.png`
 - `05-STP-Failure.png`
