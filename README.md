@@ -69,8 +69,6 @@ The Users policy is intended to block:
 
 ## Project File
 
-Place the saved Packet Tracer file in the repository root as:
-
 `Enterprise-Campus-Network-Lab.pkt`
 
 ## Screenshots
@@ -86,7 +84,6 @@ Place the saved Packet Tracer file in the repository root as:
 - `09-InterVLAN-ACL-Users-Blocked.png`
 - `10-NAT-MultiVLAN-Internet.png`
 
-Rename the screenshots only if those names match what each screenshot actually shows.
 
 ## Lab Disclaimer
 
