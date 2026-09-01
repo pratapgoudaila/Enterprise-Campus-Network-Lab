@@ -1,7 +1,5 @@
 # Topology
 
-Add the final Packet Tracer topology screenshot here as `topology.png`.
-
 Recommended labels:
 - ISP Router
 - Edge Router
