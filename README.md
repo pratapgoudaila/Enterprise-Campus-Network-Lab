@@ -75,11 +75,11 @@ The Users policy is intended to block:
 
 - `01-LACP-Both-Links-Up.png`
 - `02-LACP-Physical-Link-Failure.png`
-- `03-STP-Redundancy.png`
-- `04-STP-Path-State.png`
-- `05-STP-Failure.png`
-- `06-STP-Recovery.png`
-- `07-DHCP-Verification.png`
+- `03-LACP-Failover-Connectivity.png`
+- `04-STP-Redundant-Link-Blocked.png`
+- `05-STP-Primary-Uplink-Failure.png`
+- `06-STP-Failover-Connectivity.png`
+- `07-NAT-PAT-Translation.png`
 - `08-WAN-ACL-Verification.png`
 - `09-InterVLAN-ACL-Users-Blocked.png`
 - `10-NAT-MultiVLAN-Internet.png`
